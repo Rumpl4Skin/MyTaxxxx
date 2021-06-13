@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "242635448788",
+    "firebase_url": "https://taxfinal-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "taxfinal",
+    "storage_bucket": "taxfinal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242635448788:android:1718dd590e6bbc79493641",
+        "android_client_info": {
+          "package_name": "com.example.mytaxxxx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242635448788-kib7kv776armndvrq8t82pf96v6hee99.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mytaxxxx",
+            "certificate_hash": "d94cd2d7c619b922cfc794f7a76755d9ca94be6f"
+          }
+        },
+        {
+          "client_id": "242635448788-1gru940r1uk57ajbrgstqbb0l4gfuke5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANB2tT9ZIkHbRNi6AqDIkPiUaWgNYluJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242635448788-1gru940r1uk57ajbrgstqbb0l4gfuke5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
