@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class WelcomeActivity extends AppCompatActivity {
 
     Button driverBtn, customerBtn;
+    ImageView imgAdm;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -31,6 +34,13 @@ public class WelcomeActivity extends AppCompatActivity {
 
         initialize();
 
+        imgAdm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dispIntent = new Intent(WelcomeActivity.this, AdmRegLoginActivity.class);
+                startActivity(dispIntent);
+            }
+        });
         driverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +86,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void initialize() {
         driverBtn = (Button)findViewById(R.id.driverBtn);
         customerBtn = (Button)findViewById(R.id.customerBtn);
+        imgAdm=(ImageView)findViewById(R.id.imgAdmin);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");

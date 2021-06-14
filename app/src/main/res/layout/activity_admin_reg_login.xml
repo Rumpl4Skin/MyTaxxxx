@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome"
+    tools:context=".DriverRegLoginActivity">
+
+
+    <EditText
+        android:id="@+id/admEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statusDriver"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textNoSuggestions" />
+
+    <EditText
+        android:id="@+id/admPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/admEmail"
+        android:hint="@string/pass"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/signInAdm"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/admPassword"
+        android:background="@android:color/holo_green_light"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:text="@string/signIn" />
+
+    <TextView
+        android:id="@+id/statusDriver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="Вход для диспетчеров"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
