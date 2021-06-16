@@ -14,9 +14,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -79,6 +81,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     private ValueEventListener DriverLocationRefListener;
     private ImageView callDriver;
     private TextView txtName, txtPhone, txtCarName;
+    private EditText edtAdress;
     private CircleImageView driverPhoto;
     private RelativeLayout relativeLayout;
 
@@ -90,6 +93,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         customerLogoutButton = (Button) findViewById(R.id.cuslomer_logout_button);
         settingsButton = (Button)findViewById(R.id.cuslomer_settings_button);
         callTaxiButton = (Button)findViewById(R.id.cuslomer_order_button);
+        edtAdress = (EditText)findViewById(R.id.edtAdress);
         callDriver = findViewById(R.id.call_to_driver);
 
         mAuth = FirebaseAuth.getInstance();
@@ -132,11 +136,10 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onClick(View v)
             {
+                if(edtAdress.getText().toString().length()>0)
                 if (requestType)
                 {
                     requestType = false;
-                    GeoFire geofire = new GeoFire(CustomerDatabaseRef);
-                    geofire.removeLocation(customerID);
 
                     if(PickUpMarker !=null)
                     {
@@ -156,6 +159,8 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                         DriversRef.removeValue();
 
                         driverFoundID = null;
+                        edtAdress.setEnabled(true);
+                        edtAdress.setText("");
                     }
 
                     driverFound = false;
@@ -169,13 +174,15 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                     GeoFire geofire = new GeoFire(CustomerDatabaseRef);
                     geofire.setLocation(customerID, new GeoLocation(lastLocation.getLatitude(), lastLocation.getLongitude()));
 
+
                     CustomerPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                     PickUpMarker = mMap.addMarker(new MarkerOptions().position(CustomerPosition).title("Я здесь").icon(BitmapDescriptorFactory.fromResource(R.drawable.user)));
 
                     callTaxiButton.setText("Поиск водителя...");
+                    edtAdress.setEnabled(false);
                     getNearbyDrivers();
                 }
-
+            else Toast.makeText(getBaseContext(),"Введите адрес",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -266,6 +273,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                     DriversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundID);
                     HashMap driverMap = new HashMap();
                     driverMap.put("CustomerRideID", customerID);
+                    driverMap.put("CustomerAdress", edtAdress.getText().toString());
                     DriversRef.updateChildren(driverMap);
 
                     DriverLocationRefListener = DriversLocationRef.child(driverFoundID).child("l").

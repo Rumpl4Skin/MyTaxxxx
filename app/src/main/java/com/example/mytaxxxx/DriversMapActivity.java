@@ -58,7 +58,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     Marker PickUpMarker;
     private MediaPlayer sound;
 
-    private Button LogoutDriverButton, SettingsDriverButton;
+    private Button LogoutDriverButton, SettingsDriverButton,EndReqButton;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private Boolean currentLogoutDriverStatus = false;
@@ -91,6 +91,8 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
         relativeLayout.setVisibility(View.GONE);
         LogoutDriverButton = (Button)findViewById(R.id.driver_logout_button);
         SettingsDriverButton = (Button)findViewById(R.id.driver_settings_button);
+        EndReqButton = (Button)findViewById(R.id.driver_end_req_button);
+        EndReqButton.setVisibility(View.GONE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -104,15 +106,29 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                 startActivity(intent);
             }
         });
-
+        EndReqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PickUpMarker!=null)
+                PickUpMarker.remove();
+                relativeLayout.setVisibility(View.GONE);
+                EndReqButton.setVisibility(View.GONE);
+                assignedCustomerRef.removeValue();
+                FirebaseDatabase.getInstance().getReference().child("Customers Requests").child(customerID).removeValue();
+                FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverID).child("CustomerAdress").removeValue();
+                FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverID).child("CustomerRideIDF").removeValue();
+            }
+        });
         LogoutDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentLogoutDriverStatus = true;
+
+                DisconnectDriver();
                 mAuth.signOut();
 
                 LogoutDriver();
-                DisconnectDriver();
+
             }
         });
 
@@ -141,6 +157,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
                     if (PickUpMarker!=null)
                     {
                         PickUpMarker.remove();
+                        relativeLayout.setVisibility(View.GONE);
                     }
 
                     if(AssignedCustomerPositionListener!= null)
@@ -159,6 +176,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
 
     private void getAssignedCustomerInformation() {
         relativeLayout.setVisibility(View.VISIBLE);
+        EndReqButton.setVisibility(View.VISIBLE);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("Users").child("Customers").child(customerID);
 
@@ -325,6 +343,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
 
     private void DisconnectDriver()
     {
+
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference DriverAvalablityRef = FirebaseDatabase.getInstance().getReference().child("Driver Available");
 
